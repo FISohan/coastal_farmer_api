@@ -1,0 +1,32 @@
+import { Router } from "express";
+import { login } from "../controllers/authController";
+
+const router: Router = Router();
+
+/**
+ * @openapi
+ * /api/auth/login:
+ *   post:
+ *     summary: Admin login
+ *     tags: [Auth]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               email:
+ *                 type: string
+ *               password:
+ *                 type: string
+ *     responses:
+ *       200:
+ *         description: Login successful
+ *       401:
+ *         description: Invalid email or password
+ *     security: []
+ */
+router.post('/login', login);
+
+export default router;

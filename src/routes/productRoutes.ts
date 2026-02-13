@@ -6,6 +6,8 @@ import {
     updateProduct,
     deleteProduct,
 } from '../controllers/productController';
+import { authMiddleware } from '../middleware/authMiddleware';
+import { requiredRole } from '../middleware/roleMiddleware';
 
 const router: Router = Router();
 
@@ -42,7 +44,9 @@ const router: Router = Router();
  *       201:
  *         description: Product created
  */
-router.route('/').get(getProducts).post(createProduct);
+router.route('/')
+    .get(authMiddleware, requiredRole('customer'), getProducts)
+    .post(authMiddleware, requiredRole('admin'), createProduct);
 
 /**
  * @openapi
@@ -102,6 +106,9 @@ router.route('/').get(getProducts).post(createProduct);
  *       200:
  *         description: Product deleted
  */
-router.route('/:id').get(getProductById).put(updateProduct).delete(deleteProduct);
+router.route('/:id')
+    .get(authMiddleware, requiredRole('admin'), getProductById)
+    .put(authMiddleware, requiredRole('admin'), updateProduct)
+    .delete(authMiddleware, requiredRole('admin'), deleteProduct);
 
 export default router;

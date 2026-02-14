@@ -45,7 +45,7 @@ const router: Router = Router();
  *         description: Product created
  */
 router.route('/')
-    .get(authMiddleware, requiredRole('customer'), getProducts)
+    .get(authMiddleware, requiredRole('admin'), getProducts)
     .post(authMiddleware, requiredRole('admin'), createProduct);
 
 /**

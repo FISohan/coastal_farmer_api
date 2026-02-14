@@ -4,9 +4,18 @@ import { Product } from '../models/productModel';
 // @desc    Get all products
 // @route   GET /api/products
 // @access  Public
+export const getPrivateProducts = async (req: Request, res: Response) => {
+    try {
+        const products = await Product.find({}).lean();
+        res.json(products);
+    } catch (error: any) {
+        res.status(500).json({ message: error.message });
+    }
+};
+
 export const getProducts = async (req: Request, res: Response) => {
     try {
-        const products = await Product.find({});
+        const products = await Product.find({}).lean().select('-stock -originalPrice');
         res.json(products);
     } catch (error: any) {
         res.status(500).json({ message: error.message });
@@ -34,7 +43,7 @@ export const getProductById = async (req: Request, res: Response) => {
 // @access  Private/Admin
 export const createProduct = async (req: Request, res: Response) => {
     try {
-        const { name, price, description, category, stock } = req.body;
+        const { name, price, description, category, stock, unit, image, discount, originalPrice } = req.body;
 
         const product = new Product({
             name,
@@ -42,6 +51,10 @@ export const createProduct = async (req: Request, res: Response) => {
             description,
             category,
             stock,
+            unit,
+            image,
+            discount,
+            originalPrice,
         });
 
         const createdProduct = await product.save();
@@ -56,7 +69,7 @@ export const createProduct = async (req: Request, res: Response) => {
 // @access  Private/Admin
 export const updateProduct = async (req: Request, res: Response) => {
     try {
-        const { name, price, description, category, stock } = req.body;
+        const { name, price, description, category, stock, unit, image, discount, originalPrice } = req.body;
 
         const product = await Product.findById(req.params['id']);
 
@@ -66,6 +79,10 @@ export const updateProduct = async (req: Request, res: Response) => {
             product.description = description ?? product.description;
             product.category = category ?? product.category;
             product.stock = stock ?? product.stock;
+            product.unit = unit ?? product.unit;
+            product.image = image ?? product.image;
+            product.discount = discount ?? product.discount;
+            product.originalPrice = originalPrice ?? product.originalPrice;
 
             const updatedProduct = await product.save();
             res.json(updatedProduct);

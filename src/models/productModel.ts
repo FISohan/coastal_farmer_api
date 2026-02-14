@@ -6,8 +6,13 @@ const productSchema = new Schema({
     price: { type: Number, required: true, default: 0 },
     category: { type: String, required: true },
     stock: { type: Number, required: true, default: 0 },
+    unit: { type: String, required: true, default: 'kg' },
+    image: { type: String, required: true },
+    discount: { type: Number, required: true, default: 0 },
+    originalPrice: { type: Number, required: true, default: 0 },
 }, {
     timestamps: true,
 });
+
 
 export const Product = model('Product', productSchema);

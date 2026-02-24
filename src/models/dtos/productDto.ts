@@ -7,4 +7,5 @@ export interface ProductDto {
     image: string;
     isOutStock: boolean;
     discount: number;
+    isPublic: boolean;
 }

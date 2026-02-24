@@ -55,12 +55,14 @@ app.use(morgan('dev'));
 // Routes
 import productRoutes from './routes/productRoutes';
 import uploadRoutes from './routes/uploadRoutes';
+import orderRoutes from './routes/orderRoutes';
 import { createInitAdmin } from './utils/createInitAdmin';
 import authRoutes from './routes/authRoutes';
 
 app.use('/api/products', productRoutes);
 app.use('/api/upload', uploadRoutes);
 app.use('/api/auth', authRoutes);
+app.use('/api/orders', orderRoutes);
 
 app.get('/', (req: Request, res: Response) => {
     res.json({ message: 'Welcome to Coastal Farmer API' });

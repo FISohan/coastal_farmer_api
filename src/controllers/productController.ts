@@ -43,7 +43,7 @@ export const getProductById = async (req: Request, res: Response) => {
 // @access  Private/Admin
 export const createProduct = async (req: Request, res: Response) => {
     try {
-        const { name, price, description, category, stock, unit, image, discount, originalPrice } = req.body;
+        const { name, price, description, category, stock, unit, image, discount, originalPrice, isPublic } = req.body;
 
         const product = new Product({
             name,
@@ -55,6 +55,7 @@ export const createProduct = async (req: Request, res: Response) => {
             image,
             discount,
             originalPrice,
+            isPublic,
         });
 
         const createdProduct = await product.save();
@@ -69,7 +70,7 @@ export const createProduct = async (req: Request, res: Response) => {
 // @access  Private/Admin
 export const updateProduct = async (req: Request, res: Response) => {
     try {
-        const { name, price, description, category, stock, unit, image, discount, originalPrice } = req.body;
+        const { name, price, description, category, stock, unit, image, discount, originalPrice, isPublic } = req.body;
 
         const product = await Product.findById(req.params['id']);
 
@@ -83,6 +84,7 @@ export const updateProduct = async (req: Request, res: Response) => {
             product.image = image ?? product.image;
             product.discount = discount ?? product.discount;
             product.originalPrice = originalPrice ?? product.originalPrice;
+            product.isPublic = isPublic ?? product.isPublic;
 
             const updatedProduct = await product.save();
             res.json(updatedProduct);
